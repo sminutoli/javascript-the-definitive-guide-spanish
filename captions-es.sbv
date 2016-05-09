@@ -189,8 +189,6 @@ el número de argumentos; y prototype, que
 explicaré luego.
 
 0:03:50.730,0:03:53.980
-Because functions are just regular objects,
-you can do everything with them that you can
 Como las funciones son sólo objetos, 
 puedes hacer con ellas las mismas cosas
 
