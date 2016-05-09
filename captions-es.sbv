@@ -1,0 +1,1314 @@
+0:00:00.630,0:00:04.080
+Si estuviste dando vueltas por el mundillo de Javascript 
+lo suficiente, habrás encontrado
+
+0:00:04.080,0:00:08.970
+un conjunto de recetas para trabajar orientado a objetos. 
+La manera estándar, si es que puede haber una manera estándar,
+
+0:00:08.970,0:00:11.900
+es esta.
+
+0:00:11.900,0:00:14.620
+Y esta es la receta para la herencia.
+
+0:00:14.620,0:00:22.880
+Este es el estándar. Pero ¿por qué esto? ¿Por qué este... 
+lío? ¿Y por qué esto funciona?
+
+0:00:22.880,0:00:28.210
+Hola a todos. Mi nombre es James Shore y esto es 
+Let’s Code: Test-Driven JavaScript.
+
+0:00:28.210,0:00:31.999
+Vengo a ofrecerles algunas lecciones que aprendí sobre programación orientada a objetos en javascript. Estoy grabando
+
+0:00:31.999,0:00:33.430
+esto el 1ro de enero de 2013.
+
+0:00:33.430,0:00:39.480
+En el episodio de hoy, vamos a armar estas recetas 
+desde el comienzo.
+
+0:00:39.480,0:00:43.160
+Comenzaremos con un repaso de los fundamentos de objetos, 
+luego veremos como las funciones trabajan en javascript
+
+0:00:43.160,0:00:48.720
+Seguido, cubriremos prototipos y herencia,
+luego polimorfismo y sobreescritura de métodos.
+
+0:00:48.720,0:00:53.180
+Conversaremos sobre clases e instancias en el modelo de prototipos, 
+luego veremos cómo se relacionan estos conceptos
+
+0:00:53.180,0:00:58.079
+con el modelo clásico que la mayoría utiliza. 
+Por último, nos meteremos en el funcionamiento interno
+
+0:00:58.079,0:01:02.630
+del operador instanceof, antes de terminar con un
+vistazo de futuros caminos, una herramienta para explorar
+
+0:01:02.630,0:01:06.539
+estos conceptos en profundidad y mis recomendaciones.
+
+0:01:06.539,0:01:10.100
+Es un gran tema y vamos a cubrir mucho terreno. 
+Asegurate de aprovechar
+
+0:01:10.100,0:01:14.130
+los botones de pausa y retroceso de tu reproductor de video. 
+También puedes usar estas referencias para ir
+
+0:01:14.130,0:01:17.530
+directo a las secciones de interés.
+
+0:01:17.530,0:01:23.450
+Comencemos con lo básico. Estos son los 
+tipos comunes en JavaScript—es todo
+
+0:01:23.450,0:01:28.329
+lo que realmente puedes tipear en tu código fuente.
+De cualquier forma, la mayoría de estos no son realmente tipos
+
+0:01:28.329,0:01:32.689
+primitivos. Los únicos que son primitivos son 
+los strings, números y booleanos; un par de maneras
+
+0:01:32.689,0:01:38.399
+de decir “no puedo encontrarlo” y 
+objetos. Todo lo demás—funciones, arrays
+
+0:01:38.399,0:01:43.350
+y expresiones regulares, así como todos 
+los objetos que utilizas en tus programas—son
+
+0:01:43.350,0:01:46.289
+todas variantes de objetos.
+
+0:01:46.289,0:01:52.409
+Entonces, ¿qué es un objeto? Bueno, es un conjunto
+de pares de clave/valor. En otros lenguajes tal vez
+
+0:01:52.409,0:01:57.259
+lo llames diccionario, hash o
+array asociativo, pero fundamentalmente
+
+0:01:57.259,0:02:02.649
+son pares de clave/valor. Puedes usar cualquier
+número de claves con un nombre dado, siempre que sea
+
+0:02:02.649,0:02:08.240
+un string, y cada string estará asociado 
+con un valor. Estos valores pueden ser de cualquier
+
+0:02:08.240,0:02:14.140
+tipo: alguno de los primitivos básicos, así 
+como cualquier tipo de objeto, incluyendo funciones y,
+
+0:02:14.140,0:02:17.310
+por supuesto, objetos en sí mismos.
+
+0:02:17.310,0:02:21.830
+Algo importante a tener en cuenta sobre los objetos es que, si bien los primitivos se pasan por valor,
+
+0:02:21.830,0:02:24.840
+los objetos se pasan por referencia. Veamos 
+qué quiere decir esto.
+
+0:02:24.840,0:02:30.110
+O sea que si tenemos dos variables, llamadas number1
+y number2, y asignamos un valor a number1—digamos
+
+0:02:30.110,0:02:37.310
+3.14 etcetera—y luego copiamos 
+esta variable dentro de number2, estos dos valores
+
+0:02:37.310,0:02:41.920
+no están conectados. Si cambiamos number2, number1
+no es afectado.
+
+0:02:41.920,0:02:46.260
+Los objetos, por otro lado, son almacenados por 
+referencia. Lo que quiere decir esto es que
+
+0:02:46.260,0:02:52.110
+si asignas un objeto a una de estas variables
+y luego copiamos ese objeto en una nueva variable,
+
+0:02:52.110,0:02:56.660
+no estamos copiando el objeto. Sigue 
+habiendo un solo objeto. Lo que estamos copiando
+
+0:02:56.660,0:03:02.690
+es la referencia. El puntero. El 
+cursor. Si cambiamos object2, object1 se
+
+0:03:02.690,0:03:09.470
+modifica también. object2.a es 42, así como, 
+object1.a is 42.
+
+0:03:09.470,0:03:11.710
+Queda una cosa antes de terminar con
+lo básico.
+
+0:03:11.710,0:03:15.360
+Si buscas una propiedad que no se encuentra 
+en un objeto, obtendrás undefined 
+
+0:03:15.360,0:03:20.970
+como resultado. Ahora bien, puedes asignar undefined 
+a cualquier propiedad que quieras. Esto no
+
+0:03:20.970,0:03:25.000
+elimina la propiedad. Si por alguna razón 
+necesitas eliminar por completo la propiedad del objeto,
+
+0:03:25.000,0:03:29.680
+debes utilizar el operador delete. 
+Honestamente, en el día a día, esta distinción
+
+0:03:29.680,0:03:33.440
+no es muy importante.
+
+0:03:33.440,0:03:38.670
+Anteriormente he dicho que las funciones son 
+objetos particulares, y eso es verdad. 
+
+0:03:38.670,0:03:42.770
+Cuando defines una función, Javascript crea 
+un objeto que tiene tres propiedades 
+
+0:03:42.770,0:03:46.440
+predefinidas: name, que es el nombre 
+de la función; length, que es
+
+0:03:46.440,0:03:50.730
+el número de argumentos; y prototype, que 
+explicaré luego.
+
+0:03:50.730,0:03:53.980
+Because functions are just regular objects,
+you can do everything with them that you can
+Como las funciones son sólo objetos, 
+puedes hacer con ellas las mismas cosas
+
+0:03:53.980,0:03:58.760
+que harías con un objeto común. Puedes asignarles propiedades; puedes asignarlas a 
+
+0:03:58.760,0:04:03.220
+variables; y cuando lo haces, ellas se pasan 
+por referencia, entonces puedes ejecutarlas
+
+0:04:03.220,0:04:07.580
+en su nueva localización simplemente diciendo el 
+nombre de la variable y paréntesis.
+
+0:04:07.580,0:04:11.790
+Cuando pones una función dentro de un objeto, 
+típicamente es llamada un “método”. Puedes
+
+0:04:11.790,0:04:17.060
+ejecutar métodos como a cualquier 
+función, diciendo object.methodname y luego
+
+0:04:17.060,0:04:17.579
+paréntesis.
+
+0:04:17.579,0:04:22.060
+Cuando haces esto, JavaScript asignará 
+la palabra clave this al objeto utilizado. 
+
+0:04:22.060,0:04:28.040
+Entonces si dices myObject.get(), this referencia 
+a myObject. Luego de que la función retorne,
+
+0:04:28.040,0:04:30.490
+this volverá a referenciar valor que tenía antes.
+
+0:04:30.490,0:04:35.889
+La palabra clave this es uno de los grandes 
+temas en Javascript. Depende del objeto, no del
+
+0:04:35.889,0:04:40.110
+contexto en donde la función fue definida, y eso puede causar muchos problemas.
+
+0:04:40.110,0:04:46.350
+Entonces, si tenemos myMethod que devuelve this.val, 
+llamamos object1.get(), obtendremos 42.
+
+0:04:46.350,0:04:52.000
+Si llamamos a object2.get(), this será 
+asignado a object2 y obtendremos 3.14159.
+
+0:04:52.000,0:04:58.770
+Si llamamos directamente a myMethod(), 
+this no será asignado a nada en particular. 
+
+0:04:58.770,0:05:02.500
+Puede ser undefined si estamos usando la directiva 
+strict mode; puede ser el objeto global;
+
+0:05:02.500,0:05:04.370
+es difícil asegurar su valor.
+
+0:05:04.370,0:05:08.600
+Tienes que ser realmente cuidadoso al usar this. 
+Cuando sea posible, recomiendo
+
+0:05:08.600,0:05:13.820
+utilizar el strict mode ya que esto forzará que 
+this sea undefined. Esto no va a
+
+0:05:13.820,0:05:18.970
+prevenir problemas relacionados  a this, 
+pero te ayudará a identificarlos más rápido.
+
+0:05:18.970,0:05:22.850
+En caso de necesitar que this referencie 
+a un valor en particular, puedes forzar
+
+0:05:22.850,0:05:27.930
+su asignación utilizando call(), apply() o bind(). Entrar
+en detalle en el uso de estas funciones excede
+
+0:05:27.930,0:05:32.389
+el alcance de este material, pero déjame 
+mostrarte un ejemplo de uso.
+
+0:05:32.389,0:05:38.270
+Si decimos myMethod.call(), se ejecutará 
+la función myMethod forzando el valor de this
+
+0:05:38.270,0:05:45.070
+a lo que digamos. Entonces myMethod.call(object1)
+asignará la refencia this al object1.
+
+0:05:45.070,0:05:50.500
+Bien, estas son las bases. Empecemos a meternos 
+en los temas más complicados.
+
+0:05:50.500,0:05:54.950
+Es un poco raro que te pongas
+a definir todos tus objetos desde cero.
+
+0:05:54.950,0:05:59.550
+Típicamente tendrás algún tipo de patrón repetido. 
+En este caso, por ejemplo, object1,
+
+0:05:59.550,0:06:04.330
+object2, y object3 utilizan la misma 
+función. En vez de definirlas a todas
+
+0:06:04.330,0:06:09.199
+por separado, lo que a la larga sería una 
+pesadilla de mantenimiento, lo que puedes hacer
+
+0:06:09.199,0:06:12.320
+es usar algo llamado “prototipos”.
+
+0:06:12.320,0:06:17.290
+Esto funciona así: tu defines un 
+único objeto, y luego tienes otros objetos
+
+0:06:17.290,0:06:22.050
+que heredan de éste, o lo “extienden”. La forma 
+de hacer esto es llamando a Object.create().
+
+0:06:22.050,0:06:27.070
+Entonces si tengo un objeto base con una función 
+y un valor, puedo crear un nuevo objeto (que he
+
+0:06:27.070,0:06:31.440
+llamado hijo) diciendo Object.create(child). 
+Puedes hacer con este objeto hijo
+
+0:06:31.440,0:06:36.400
+lo que harías con cualquier objeto. Puedes 
+agregarle valores o incluso extenderlo con
+
+0:06:36.400,0:06:37.480
+otro hijo.
+
+0:06:37.480,0:06:40.800
+La parte interesante es cuando 
+comenzamos a usar estos objetos.
+
+0:06:40.800,0:06:45.360
+El objeto base sigue siendo el mismo. Digamos 
+que invocamos parent.get(). Bien, this será
+
+0:06:45.360,0:06:51.030
+asignado al objeto parent, entonces JavaScript buscará por get en ese objeto. Cuando lo encuentre
+
+0:06:51.030,0:06:56.389
+llamará a esa función, que dice 
+devolver this.val, esto causará que Javascript
+
+0:06:56.389,0:07:00.520
+busque val en parent. Hasta acá todo 
+es como esperamos.
+
+0:07:00.520,0:07:07.199
+Pero ahora se pone interesante. Si llamamos a child.get(), 
+ahora this referencia a child. JavaScript buscará
+
+0:07:07.199,0:07:11.900
+el método get en child, pero no lo encuentra. 
+Entonces buscará en su prototipo
+
+0:07:11.900,0:07:18.430
+—subirá un eslabón en la cadena de prototipos—examinando 
+a parent, encontrando al método get allí.
+
+0:07:18.430,0:07:24.370
+Cuando encuentre la función, tratará de devolver 
+this.val, lo que significa que volverá a child,
+
+0:07:24.370,0:07:30.949
+buscando val, encontrandolo. Entonces child.get() 
+devolverá 3.14 en vez de 42, incluso 
+
+0:07:30.949,0:07:35.280
+cuando está utilizando la función definida 
+en parent.
+
+0:07:35.280,0:07:39.550
+JavaScript atravesará toda la cadena de prototipos 
+si es necesario para encontrar
+
+0:07:39.550,0:07:45.070
+una propiedad. Si decimos grandchild.get(), 
+Javascript buscará get en el objeto grandchild.
+
+0:07:45.070,0:07:49.780
+Como no puede encontrarlo, irá al 
+prototype buscando get en child. No lo
+
+0:07:49.780,0:07:54.860
+encontrará aquí, entonces irá a parent, busca 
+y encuentra a get allí. Llamará a
+
+0:07:54.860,0:08:01.430
+la función, intentando devolver this.val, entonces 
+nuevamente buscará en grandchild la propiedad val.
+
+0:08:01.430,0:08:10.389
+No la encontrará, entonces irá a child, 
+busca val, la encuentra, y devuelve 3.14159.
+
+0:08:10.389,0:08:15.009
+Estos son los fundamentos de la herencia 
+en JavaScript. Ahora, si has visto otras maneras
+
+0:08:15.009,0:08:18.669
+de hablar sobre objetos en JavaScript, seguramente 
+estarán pensando en clases u otra
+
+0:08:18.669,0:08:25.669
+cosa primero. Pero lo que acabamos de ver—esta herencia 
+basada en prototipos—es la forma en la que JavaScript
+
+0:08:25.669,0:08:30.780
+funciona. Actualmente, JavaScript no tiene otra 
+forma de herencia más
+
+0:08:30.780,0:08:33.360
+que la prototípica que estoy mostrando aquí.
+
+0:08:33.360,0:08:38.210
+Hay una cuestión más que me gustaría compartir, 
+y es que cada objeto tiene
+
+0:08:38.210,0:08:43.240
+un prototipo, excepto el objeto base y 
+los objetos que son creados explícitamente
+
+0:08:43.240,0:08:46.240
+sin prototipo. Así es como se ven.
+
+
+0:08:46.240,0:08:53.450
+By default, objects that you create have Object.prototype
+as their prototype, and functions have Function.prototype
+Por defecto, los objetos que creas tienen a Object.prototype como su prototipo, y las funciones tienen a Function.prototype
+
+0:08:53.450,0:08:57.850
+como su prototipo. Puedes notar que de aquí 
+provienen los métodos call(), apply(), y bind()
+
+0:08:57.850,0:09:00.070
+que mencioné hace poco.
+
+0:09:00.070,0:09:04.820
+Now, this is way too much detail to show in
+most of these visualizations, so what I’m
+Ahora, mostrar todo esto en las visualizaciones sería hacerlas demasiado detalladas, por eso
+
+0:09:04.820,0:09:10.640
+voy a utilizar [[Object]] y [[Function]] para 
+referir a esos prototipos de ahora
+
+
+0:09:10.640,0:09:12.370
+en adelante.
+
+0:09:12.370,0:09:17.940
+Una vez que tienes objetos en una cadena de prototipos, 
+te encontrarás necesitando hijos que se comporten
+
+
+0:09:17.940,0:09:23.110
+distinto a sus padres, incluso cuando el mismo método es invocado. Llamamos a esto
+
+0:09:23.110,0:09:26.880
+“polimorfismo”. Polimorfismo significa, “el 
+mismo nombre, diferente comportamiento”. Ahora,
+
+0:09:26.880,0:09:29.870
+técnicamente, puedes obtener polimorfismo 
+sin herencia, pero no vamos a 
+
+0:09:29.870,0:09:31.089
+hablar de eso ahora.
+
+0:09:31.089,0:09:35.360
+En JavaScript es fácil generar polimorfismo; 
+utilizas el mismo nombre para la propiedad, asignándole
+
+0:09:35.360,0:09:40.370
+otro método. Entonces si queremos tener 
+un objeto firmAnswer que responda algo
+
+0:09:40.370,0:09:46.800
+distinto—o de otra manera—podríamos simplemente 
+decir firmAnswer.get y asignar la función.
+
+0:09:46.800,0:09:50.450
+En este caso, lo que vamos a hacer 
+es devolver el mismo valor
+
+0:09:50.450,0:09:53.370
+agregando “!!” al final.
+
+0:09:53.370,0:09:57.940
+So if we say answer.get(), that will give
+us “42” back, but if we say firmAnswer.get(),
+Entonces si decimos answer.get(), 
+esto devolverá “42”, pero si decimos firmAnswer.get(), 
+
+0:09:57.940,0:10:04.640
+esto devolverá “42!!”. Supongo 
+que captas la idea.
+
+0:10:04.640,0:10:09.100
+Esta relación es un poco más fácil de ver si no tenemos las visualizaciones de la función
+
+0:10:09.100,0:10:11.390
+aquí, por lo que voy a dejar de mostrarlas 
+por ahora.
+
+0:10:11.390,0:10:17.330
+Ahora podrás notar que nuestra fn2 busca su 
+this.val y nuestra fn1 busca this.val. 
+
+0:10:17.330,0:10:23.790
+Aquí hay un poco de código duplicado. Si bien 
+no parece tan malo, en programas más complejos
+
+0:10:23.790,0:10:29.990
+encontrarás que este tipo de lógica 
+es muy difícil de mantener. Típicamente,
+
+0:10:29.990,0:10:35.399
+que lo vamos a querer es llamar fn1 
+desde fn2.
+
+0:10:35.399,0:10:40.760
+Desafortunadamente, no es tan fácil 
+como parece. La respuesta obvia sería 
+
+0:10:40.760,0:10:45.360
+simplemente llamar fn1… diciendo answer.get(). 
+Esto no funciona. Devuelve
+
+0:10:45.360,0:10:50.600
+la respuesta incorrecta. Va a devolver 42. 
+¿Sabes por qué? Si no, puedes pausar
+
+0:10:50.600,0:10:53.100
+el video para ver si te das cuenta.
+
+0:10:53.100,0:10:55.050
+Bien, vamos a explicarlo.
+
+0:10:55.050,0:11:00.279
+Cuando llamamos firmAnswer.get(), this es asignado 
+a firmAnswer y JavaScript busca
+
+0:11:00.279,0:11:07.459
+la propiedad get. La encuentra y ejecuta fn2. 
+Esto ejecuta answer.get(), lo que asignará
+
+0:11:07.459,0:11:13.770
+this a answer, para luego buscar la 
+propiedad get en answer. Cuando la encuentra, 
+
+0:11:13.770,0:11:20.899
+ejecutará fn1 y tratará de devolver this.val. 
+Como this está apuntando a answer, cuando
+
+0:11:20.899,0:11:28.350
+busque por this.val, encontrará la propiedad en 
+el objeto answer devolviendo 42 en vez de 3.14159,
+
+0:11:28.350,0:11:30.040
+que es el valor esperado.
+
+0:11:30.040,0:11:34.779
+Entonces, para hacer que funcione correctamente, necesitamos utilizar la función call. Necesitamos
+
+0:11:34.779,0:11:39.380
+decir answer.get.call(this). Puedes intentar 
+descubrir por qué funcionaría esto.
+
+0:11:39.380,0:11:42.810
+Bien, así es cómo esto funciona.
+
+0:11:42.810,0:11:48.990
+Cuando llamamos firmAnswer.get(), this es asignado 
+a firmAnswer… busca por get…
+
+0:11:48.990,0:11:58.750
+lo encuentra… ejecuta fn2… y ahora dice answer.get.call(this). Esto asigna a this, bueno, el valor al que apunta this nuevamente.
+
+0:11:58.750,0:12:05.269
+Pero luego ejecuta answer.get() directamente, 
+que intenta devolver this.val, buscando
+
+0:12:05.269,0:12:12.610
+la propiedad val en firmAnswer, la encuentra, 
+devolviendo la respuesta esperada.
+
+0:12:12.610,0:12:17.550
+Puedes organizar tus objetos Javascript de 
+la manera que quieras, aunque una manera bastante común 
+
+0:12:17.550,0:12:20.970
+de hacerlo es separando tus métodos de tus datos.
+
+0:12:20.970,0:12:25.269
+Por ejemplo, tenemos este objeto answer que, 
+cuando le pides que te de su value, devuelve
+
+0:12:25.269,0:12:26.610
+el value que tiene almacenado.
+
+0:12:26.610,0:12:31.310
+Bien, normalmente quieres tener 
+múltiples copias de este objeto, entonces la gente
+
+0:12:31.310,0:12:38.070
+generalmente pondrá la función en un prototipo
+—al que llamaremos AnswerPrototype—y luego
+
+0:12:38.070,0:12:44.130
+tendrán múltiples objetos extendiendo 
+ese prototipo para darle valores especiales.
+
+0:12:44.130,0:12:48.339
+Aquí vemos que lifeAnswer tiene un value 
+de 42, ya que es la respuesta de la Vida,
+
+0:12:48.339,0:12:53.220
+(ver Hitchhiking guide to the galaxy), y dessertAnswer tiene un value de pi, por, bueno, razones obvias (dessert = postre, pi = pie = pastel).
+
+0:12:53.220,0:12:57.410
+Si quisieras especializar esta respuesta, 
+como hicimos con firmAnswer, puedes 
+
+0:12:57.410,0:13:03.560
+hacer lo mismo. Tenemos nuestro FirmAnswerPrototype 
+mas su fn2—la que agrega “!!”
+
+0:13:03.560,0:13:09.779
+al final—que extiende AnswerPrototype. También tenemos 
+nuestra luckyAnswer y magicAnswer
+
+0:13:09.779,0:13:11.800
+extendiendo a esta.
+
+0:13:11.800,0:13:16.850
+Cuando utilizas esta forma de organizar tus objetos, 
+los prototipos son generalmente llamados
+
+0:13:16.850,0:13:22.410
+“clases,” y los objetos—los que los extienden
+—generalmente llamados “instancias”.
+
+0:13:22.410,0:13:26.940
+Una clase que extiende a otra es llamada “subclase”.
+
+0:13:26.940,0:13:30.120
+Se le dice “instanciar” a esta creación de una instancia, 
+y te darás cuenta que esto implica
+
+0:13:30.120,0:13:35.730
+un proceso de dos pasos. Primero, se crea el objeto extendiendo el prototipo, segundo,
+
+0:13:35.730,0:13:40.920
+se inicializan sus estados. (Recuerda, las instancias 
+usualmente se ocupan de los estados y los prototipos
+
+0:13:40.920,0:13:46.230
+de los métodos—las clases de los métodos.) 
+Entonces extendemos y luego inicializamos.
+
+0:13:46.230,0:13:50.540
+El problema que tiene esto es que la lógica de inicialización es duplicada cada vez que creamos
+
+0:13:50.540,0:13:56.200
+un objeto. Esto no es tan problemático en un 
+ejemplo sencillo, pero en programas reales,
+
+0:13:56.200,0:14:00.880
+la lógica de inicialización suele ser 
+más complicada. Entonces no queremos duplicarla
+
+0:14:00.880,0:14:04.680
+en todos lados. Eso sería un gran 
+problema de mantenimiento.
+
+0:14:04.680,0:14:08.769
+Esto también vulnera el encapsulamiento. Una de las 
+cosas lindas que tiene la OOP
+
+0:14:08.769,0:14:13.790
+es que nos permite decidir cómo nuestros datos 
+van a ser almacenados de una manera en la que nadie
+
+0:14:13.790,0:14:18.190
+más deba preocuparse. Simplemente provees acceso 
+a esos datos a través de tus métodos
+
+0:14:18.190,0:14:21.750
+y luego, si quieres cambiar la manera en la que los 
+datos son almacenados, lo haces. Actualizas tus
+
+0:14:21.750,0:14:26.120
+métodos—los de tu objeto—sin tener 
+que actualizar el resto
+
+0:14:26.120,0:14:26.459
+del programa.
+
+0:14:26.459,0:14:31.279
+Pero aquí, como todas nuestras instancias acceden 
+a val directamente, no podemos cambiar la forma en que val
+
+0:14:31.279,0:14:35.180
+es almacenado sin tener que cambiar a 
+todas nuestras instancias.
+
+0:14:35.180,0:14:40.930
+Entonces lo que generalmente haces es usar algún 
+tipo de función de inicialización. En este caso,
+
+
+0:14:40.930,0:14:46.029
+voy a llamarla constructor(). Este es un método que muchos utilizan para inicializar
+
+0:14:46.029,0:14:46.940
+sus objetos.
+
+0:14:46.940,0:14:52.570
+Así es como funciona. Digamos que 
+queremos crear una nueva instancia de magicAnswer.
+
+0:14:52.570,0:14:59.170
+Extendemos FirmAnswerPrototype y luego decimos magicAnswer.constructor(3). Esto
+
+0:14:59.170,0:15:03.310
+llamado asignará this a magicAnswer y luego buscará la 
+propiedad constructor. No la encontrará
+
+0:15:03.310,0:15:08.310
+en magicAnswer, entonces la buscará en el prototipo. 
+Tampoco la encontará allí, entonces
+
+0:15:08.310,0:15:15.180
+buscará en el prototipo de FirmAnswerPrototype. Allí 
+la encontrará y ejecutará fn0(value).
+
+0:15:15.180,0:15:23.110
+fn0 va a asignar a la propiedad this._val el value. Entonces localiza a this, asigna el valor,
+
+0:15:23.110,0:15:24.019
+y aquí estamos.
+
+0:15:24.019,0:15:28.970
+Puedes notar que agregué un guión bajo adelante en _val. 
+Es una convención en la comunidad
+
+0:15:28.970,0:15:33.790
+JavaScript para decir que esta propiedad es “privada”. 
+En otras palabras, no deberías acceder o
+
+0:15:33.790,0:15:37.610
+asignar valores a esa propiedad. Ahora bien, en JavaScript no hay forma de forzar a que esto sea así,
+
+0:15:37.610,0:15:41.670
+pero esta es la manera correcta de trabajar. Y si sigues esta regla, esto significa que podemos cambiar
+
+0:15:41.670,0:15:46.800
+AnswerPrototype sin cambiar 
+la manera en que 
+
+0:15:46.800,0:15:51.600
+FirmAnswerPrototype debe ser programada para 
+todas nuestras instancias.
+
+0:15:51.600,0:15:58.170
+Este es un panorama completo de herencia prototípica en JavaScript. Es un poco distinto
+
+0:15:58.170,0:16:02.130
+a lo que mostré al comienzo, todavía no terminamos con esto. Pero utilizando este modelo puedes
+
+0:16:02.130,0:16:06.680
+programar completamente orientado a objetos con JavaScript.
+
+0:16:06.680,0:16:12.850
+Ahora, observemos el modelo clásico. Se va a construir 
+sobre todo 
+
+0:16:12.850,0:16:14.410
+lo que hicimos hasta ahora.
+
+0:16:14.410,0:16:18.670
+Para comenzar, si recuerdas, en el modelo de prototipos, instanciamos un objeto creandolo
+
+0:16:18.670,0:16:23.260
+y luego llamando a algún tipo de constructor, ¿no?. 
+Esto es tan común que JavaScript
+
+0:16:23.260,0:16:26.139
+tiene una palabra especial para hacerlo. 
+Esta palabra es new.
+
+0:16:26.139,0:16:32.470
+De todas formas, new es un poquito, bueno, rara. 
+No funciona de la manera que hemos visto
+
+0:16:32.470,0:16:36.880
+hasta ahora, y eso es lo que diferencia al 
+modelo clásico que estoy por mostrar con
+
+0:16:36.880,0:16:40.589
+el de prototipos que estuve mostrando hasta ahora.
+
+0:16:40.589,0:16:45.829
+Ahora, antes de meternos en eso, tengo que mostrarte 
+algo un poco raro sobre las funciones.
+
+
+0:16:45.829,0:16:49.920
+¿Recuerdas esa propiedad prototype que dije que explicaría luego? Bueno, voy a explicarla
+
+0:16:49.920,0:16:52.660
+ahora. Y es… es rara.
+
+0:16:52.660,0:16:56.420
+Al crear una función, JavaScript crea un objeto con las propiedades name, length y prototype.
+
+0:16:56.420,0:17:02.360
+Esta propiedad prototype en realidad referencia 
+a un objeto completamente nuevo
+
+0:17:02.360,0:17:07.240
+con una propiedad constructor que referencia a la función que acabas de crear. Entonces cada vez
+
+0:17:07.240,0:17:11.559
+defines una función en JavaScript, estás creando dos objetos: el de la función, 
+
+0:17:11.559,0:17:14.850
+y también su objeto prototype 
+que está colgado por ahí.
+
+0:17:14.850,0:17:17.780
+Te dije que era raro.
+
+0:17:17.780,0:17:20.150
+Observemos esto más de cerca. ¿No te parece familiar?
+
+0:17:20.150,0:17:27.470
+Si. Es un prototipo. Es, básicamente, 
+una clase. O sea que cada vez que defines una función
+
+0:17:27.470,0:17:32.460
+en JS, estás realmente definiendo 
+un constructor que está asociado con esta mini clase
+
+0:17:32.460,0:17:34.040
+que no-hace-nada.
+
+0:17:34.040,0:17:39.400
+Ahora, claro está, no toda función que uno define fue pensada para ser un constructor. Entonces la convención
+
+0:17:39.400,0:17:43.260
+en JS es que, si la pensamos como 
+un constructor, debería comenzar
+
+0:17:43.260,0:17:47.080
+con una letra mayúscula, y si fue pensada como una función tradicional, entonces la nombramos
+
+0:17:47.080,0:17:48.210
+con minúsculas al comienzo.
+
+0:17:48.210,0:17:53.100
+Bien, hasta aquí un poco de la rareza con las funciones. 
+Veamos como se pone en juego esto en
+
+0:17:53.100,0:17:54.110
+el modelo clásico.
+
+0:17:54.110,0:18:00.900
+Primero, volvamos a nuestro modelo de prototipos. 
+Vamos a revisarlo paso a paso.
+
+0:18:00.900,0:18:04.570
+Lo que vamos a hacer es crear 
+una clase llamada AnswerPrototype.
+
+0:18:04.570,0:18:09.870
+Vamos a crear un constructor en ella. Y cuando creamos ese constructor, JavaScript
+
+0:18:09.870,0:18:15.190
+va a definir un objeto para la función y otro para su prototipo (al que no le daremos importancia;
+
+0:18:15.190,0:18:19.110
+lo vamos a ignorar). También vamos 
+a crear una función get en
+
+0:18:19.110,0:18:27.490
+AnswerPrototype y un par de instancias: lifeAnswer y dessertAnswer.
+
+0:18:27.490,0:18:32.270
+Este es un ejemplo básico usando el modelo 
+de prototipos. Ahora hagamos lo mismo, 
+
+0:18:32.270,0:18:35.410
+pero esta vez utilizando el modelo clásico 
+y la palabra new.
+
+0:18:35.410,0:18:43.000
+En el modelo clásico, se define el constructor 
+primero. Entonces creemos la función Answer.
+
+0:18:43.000,0:18:47.480
+JavaScript va a crear automáticamente un objeto 
+a su lado, con una propiedad constructor
+
+0:18:47.480,0:18:51.960
+que referencia a la misma función Answer. Este prototipo es nuestra clase. Es la que va a cumplir
+
+0:18:51.960,0:18:58.220
+el mismo propósito que AnswerPrototype 
+en el ejemplo previo. Entonces asignamos nuestro 
+
+0:18:58.220,0:19:04.780
+método get en AnswerPrototype. Luego podemos 
+instanciarlo llamando a new Answer(). Vamos a 
+
+0:19:04.780,0:19:09.590
+decir new Answer(42) y esto nos va a dar la instancia 
+correcta. Esto va a crear un hijo de 
+
+0:19:09.590,0:19:17.020
+Answer.prototype inicializandolo llamando al 
+constructor Answer pasandole el valor 42.
+
+0:19:17.020,0:19:22.770
+Para saber que al crear a lifeAnswer 
+debe usar a Answer.prototype como su prototipo 
+
+0:19:22.770,0:19:27.960
+JavaScript inspecciona la propiedad prototype 
+presente en la función al utilizar la palabra clave new.
+
+0:19:27.960,0:19:30.040
+Lo mismo sucede con dessertAnswer.
+
+0:19:30.040,0:19:32.419
+Esto es el modelo clásico.
+
+0:19:32.419,0:19:37.790
+Esto se pone un poco más complicado cuando 
+comenzamos a lidiar con subclases. Observemos
+
+0:19:37.790,0:19:41.850
+cómo sería con una subclase. 
+Agreguemos la clase FirmAnswer
+
+0:19:41.850,0:19:45.030
+que hicimos en nuestro ejemplo previo 
+con prototipos.
+
+0:19:45.030,0:19:50.940
+Nuevamente, vamos a comenzar creando el constructor 
+FirmAnswer en primer lugar. JavaScript creará automáticamente
+
+0:19:50.940,0:19:58.200
+el objeto FirmAnswer.prototype, pero no podemos utilizarlo ya que necesitamos que FirmAnswer.prototype
+
+0:19:58.200,0:20:04.940
+extienda a Answer.prototype—y esto no es así. Lo que haremos es, asignar la propiedad FirmAnswer.prototype
+
+0:20:04.940,0:20:10.880
+a un nuevo objeto que crearemos extendiendo 
+a Answer.prototype. Esto hará que el viejo 
+
+0:20:10.880,0:20:15.000
+FirmAnswer.prototype to have nothing pointing
+to it, so it will get collected by the garbage
+FirmAnswer.prototype quede sin referenciar, siendo recolectado por el garbage
+
+0:20:15.000,0:20:15.760
+collector.
+
+0:20:15.760,0:20:22.720
+Luego, asignaremos la propiedad constructor 
+para volver a referenciar a FirmAnswer. Ahora, hasta donde
+
+0:20:22.720,0:20:26.380
+puedo decir, esta propiedad constructor no es necesaria. 
+Todo lo que estamos haciendo con
+
+0:20:26.380,0:20:31.190
+JS funciona bien sin esa propiedad. 
+Pero vamos a asignarlas para ser consistentes.
+
+0:20:31.190,0:20:33.850
+Quizá quieras probar en saltear este paso, 
+pero debo admitir, no he sido lo suficientemente
+
+0:20:33.850,0:20:37.169
+valiente para hacerlo, por lo que hazlo 
+asumiendo el riesgo.
+
+0:20:37.169,0:20:42.090
+Bien, tenemos el FirmAnswer.prototype 
+con su constructor. Ahora necesitamos asignarle
+
+0:20:42.090,0:20:47.440
+el método get. Luego podemos instanciarlo 
+normalmente diciendo new FirmAnswer(7).
+
+0:20:47.440,0:20:51.539
+Esto creará nuestra luckyAnswer extendiendo 
+FirmAnswer.prototype y podemos hacer lo mismo
+
+0:20:51.539,0:20:53.710
+con magicAnswer.
+
+0:20:53.710,0:20:58.520
+Aquí hay una comparación de 
+ambos modelos. He numerado las secciones
+
+0:20:58.520,0:21:03.120
+para que correspondan, el número uno en el modelo de prototipos 
+está haciendo lo exactamente lo mismo que el uno 
+
+0:21:03.120,0:21:08.750
+en el modelo clásico. Puedes pausar el video 
+aquí si quieres estudiar esto en detalle.
+
+0:21:08.750,0:21:12.860
+Hay algo más que quisiera compartirles.
+
+0:21:12.860,0:21:18.330
+A menudo es conveniente saber qué clase 
+se usó para instanciar un objeto. Para ello,
+
+0:21:18.330,0:21:25.020
+JavaScript tiene una palabra clave: instanceof. 
+Funciona examinando al prototipo
+
+0:21:25.020,0:21:29.480
+del constructor y comparándolo con el objeto. 
+Es un poco complicado 
+
+0:21:29.480,0:21:32.299
+de entender a menos que lo veas, así que 
+voy a mostrartelo.
+
+0:21:32.299,0:21:37.789
+Podemos preguntar si lifeAnswer es una instancia de 
+Answer. Intuitivamente sabemos
+
+0:21:37.789,0:21:41.870
+que es así. ¿Pero cómo lo sabe JavaScript? Bien, 
+esto es lo que sucede:
+
+0:21:41.870,0:21:48.400
+Primero, examina a Answer.prototype. No al 
+prototipo de Answer, sino a la propiedad prototype de Answer.
+
+0:21:48.400,0:21:55.250
+Luego examina el prototipo de lifeAnswer. 
+Si estas dos cosas son el mismo objeto,
+
+0:21:55.250,0:21:58.460
+si, es una instancia.
+
+0:21:58.460,0:22:04.280
+Entonces lifeAnswer no podría ser una instancia de 
+FirmAnswer. FirmAnswer.prototype está aquí.
+
+0:22:04.280,0:22:11.360
+El prototipo de lifeAnswer está por aquí. 
+No coinciden, entonces no es instanceof.
+
+0:22:11.360,0:22:16.940
+De todas formas, existe una salvedad—una 
+excepción a la regla. luckyAnswer es una instancia
+
+0:22:16.940,0:22:21.789
+de Answer porque JavaScript inspeccionará 
+toda la cadena de prototipos. O sea, Javascript examinará
+
+0:22:21.789,0:22:28.120
+Answer.prototype. Luego examinará al prototipo de luckyAnswer. 
+No coinciden, pero subirá
+
+0:22:28.120,0:22:36.500
+en la cadena de prototipos. Como coinciden, 
+luckyAnswer es 
+
+0:22:36.500,0:22:38.789
+una instancia de Answer.
+
+0:22:38.789,0:22:43.200
+Esto es todo lo que debes saber para comprender 
+cómo funciona la herencia en Javascript.
+
+
+0:22:43.200,0:22:46.700
+Quiero compartir algunas cosas más, igualmente.
+
+0:22:46.700,0:22:51.860
+Primero, en la próxima versión de JavaScript, 
+como es definida en la especificación ES2015,
+
+0:22:51.860,0:22:57.150
+se incorpora una nueva sintaxis que simplifica 
+la manera de hacer un modelo de herencia clásico. 
+
+0:22:57.150,0:23:02.190
+Es la sintaxis de class, y la podemos 
+ver aquí a la izquierda.
+
+0:23:02.190,0:23:08.000
+Ahora, hasta donde pude investigar, 
+esto genera exactamente el mismo modelo que vimos
+
+0:23:08.000,0:23:12.860
+como herencia clásica, tal como 
+muestro a la derecha. Pero será 
+
+0:23:12.860,0:23:15.190
+más fácil para trabajarlo.
+
+0:23:15.190,0:23:19.160
+Si quieres ver una comparación con el 
+modelo clásico, aquí hay una parte por parte.
+
+0:23:19.160,0:23:23.010
+Si quieres estudiarlo en profundidad, 
+puedes pausar el video.
+
+0:23:23.010,0:23:29.100
+Yo llamé a este episodio “La guía definitiva 
+para OOP en Javascript” lo que
+
+0:23:29.100,0:23:33.220
+quizá es un poco pretencioso de mi parte. 
+No es posible para un tutorial, sin importar
+
+0:23:33.220,0:23:37.179
+su duración—y no lo quería hacer 
+muy largo—de todas formas, no es posible
+
+0:23:37.179,0:23:40.970
+cubrir en un tutorial absolutamente 
+todo lo que hay para saber de JavaScript. 
+
+0:23:40.970,0:23:45.580
+Hay mucho material que dejé intencionalmente 
+afuera, como getters y setters, variables
+
+0:23:45.580,0:23:50.110
+estáticas, y más… la implementación de bind y apply, 
+por ejemplo…
+
+0:23:50.110,0:23:55.289
+Lo que convierte a este video en la guía definitiva, 
+es el  website que he creado para acompañarlo. 
+
+0:23:55.289,0:24:01.340
+Este sitio es un visualizador de objetos. Entonces puedes escribir código JavaScript y el sitio
+
+0:24:01.340,0:24:05.870
+lo analizará mostrando el mapa de objetos 
+en pantalla. Entonces si queremos saber
+
+0:24:05.870,0:24:10.200
+qué hizo una función, podríamos añadirla aquí.
+Podemos tocar “Show all functions” y
+
+0:24:10.200,0:24:14.049
+ver cómo las funciones se muestran como objetos. 
+
+0:24:14.049,0:24:17.950
+Es una herramienta muy cool. Es muy divertida; 
+tiene muchos ejemplos
+
+0:24:17.950,0:24:23.909
+predefinidos para que juegues. Dale un vistazo. 
+Esta es la mejor manera para comprender realmente cómo la herencia
+
+0:24:23.909,0:24:29.080
+funciona en JavaScript y cómo funcionan los objetos también.
+Testea tu conocimiento escribiendo
+
+0:24:29.080,0:24:33.520
+un poco de código, clickeando el botón de evaluate 
+y viendo qué obtienes. Juega con tus propias
+
+0:24:33.520,0:24:38.679
+maneras de generar estructuras de herencia; intenta 
+tus abstracciones; prueba las abstracciones
+
+0:24:38.679,0:24:42.520
+de los demás.
+
+0:24:42.520,0:24:43.309
+
+0:24:43.309,0:24:48.760
+De cualquier forma, este es el recurso verdaderamente 
+definitivo porque de hecho se ejecuta en tu navegador.
+
+0:24:48.760,0:24:53.000
+So it will tell you whatever your browser—it
+will tell you the JavaScript model used by
+Entonces te dirá lo que te diga tu navegador—te 
+dirá cuál es el modelo Javascript utilizado por
+
+0:24:53.000,0:24:57.780
+tu navegador. Dale un vistazo.
+
+0:24:57.780,0:25:02.000
+Para cerrar, estas son mis recomendaciones 
+para que programes orientado a objetos con Javascript.
+
+0:25:02.000,0:25:06.740
+Primero, usa el modelo clásico. Se que no 
+es muy popular, y es un poco raro,
+
+0:25:06.740,0:25:11.490
+pero es el estándar. Todo el mundo lo entiende. 
+Si usas el modelo clásico, cualquiera 
+
+0:25:11.490,0:25:16.179
+con una cercanía a la programación OOP en Javascript 
+va a entender este acercamiento. 
+
+0:25:16.179,0:25:19.440
+No podemos decir lo mismo de otras opciones que utilices.
+
+0:25:19.440,0:25:23.020
+Es casi la única manera que tiene 
+un buen soporte en las IDEs si quieres disponer
+
+0:25:23.020,0:25:28.850
+de algún tipo de automatización, y es la única propuesta
+
+0:25:28.850,0:25:33.890
+que soporta instanceof. Se puede hackear 
+el soporte a instanceof utilizando un modelo de prototipos,
+
+0:25:33.890,0:25:38.370
+pero no es muy conveniente 
+ya que el código termina siendo más feo que el
+
+0:25:38.370,0:25:39.330
+modelo clásico.
+
+0:25:39.330,0:25:45.220
+Segundo, "use strict";. Usa el modo estricto. 
+Ayudará a prevenir situaciones donde 
+
+0:25:45.220,0:25:47.440
+la referencia this no esté bien definida.
+
+0:25:47.440,0:25:51.390
+Tercero, usa JSHint o algún linter similar. 
+Te ayudará a detectar casos donde olvidaste
+
+
+0:25:51.390,0:25:55.900
+usar new o lo utilizaste en el lugar equivocado, 
+así como a utilizar convenciones 
+
+0:25:55.900,0:25:58.140
+como el uso de mayúsculas al nombrar una clase.
+
+0:25:58.140,0:26:03.600
+Cuarto, cuando la nueva sintaxis de EcmaScript 6 de clases
+esté disponible, ve y usala.
+
+0:26:03.600,0:26:07.610
+al momento de grabar este video, 
+no está disponible en ninguno
+
+0:26:07.610,0:26:11.730
+de los browser populares, y eso implica que va 
+a pasar bastante hasta que esté disponible en IE.
+
+0:26:11.730,0:26:15.500
+Pero cuando esté disponible, úsala. 
+Tiene una sintaxis agradable y elegante. Se corresponde
+
+0:26:15.500,0:26:18.840
+con el modelo clásico común, lo que significa 
+que se lleva bien con todo lo que
+
+0:26:18.840,0:26:20.200
+venías haciendo.
+
+0:26:20.200,0:26:25.380
+Por último, experimenta con el Object Playground. 
+Creé este sitio especialmente para que sea una manera 
+
+0:26:25.380,0:26:29.500
+de aprender más sobre OOP en Javascript. 
+Te sorprenderás con lo que puedes encontrar
+
+0:26:29.500,0:26:34.179
+sobre esto. Por ejemplo, echale un vistazo para saber si necesitás 
+o no la propiedad constructor.
+
+0:26:34.179,0:26:38.000
+¿Qué pasa cuando la eliminas? ¿Puedes encontrar
+un caso en el que la necesites,
+
+0:26:38.000,0:26:40.659
+o un caso en el que no la necesites?
+
+0:26:40.659,0:26:44.450
+Bueno, esto es lo que he aprendido sobre 
+programación orientada a objetos en JavaScript. Gracias
+
+
+0:26:44.450,0:26:46.539
+a todos por mirar, ¡nos vemos la próxima!
